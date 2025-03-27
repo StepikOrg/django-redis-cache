@@ -1,12 +1,11 @@
-# -*- coding: utf-8 -*-
 from django.test import TestCase, override_settings
 
-from tests.testapp.tests.base_tests import BaseRedisTestCase
+from .base import BaseRedisTestCase
 
 LOCATION = "127.0.0.1:6381"
 
 
-class CompressionTestCase(object):
+class CompressionTestCase:
 
     def test_compression(self):
         key = 'a'
@@ -35,7 +34,7 @@ class CompressionTestCase(object):
             'OPTIONS': {
                 'DB': 14,
                 'PASSWORD': 'yadayada',
-                'PARSER_CLASS': 'redis.connection.HiredisParser',
+                'PARSER_CLASS': 'redis.connection._HiredisParser',
                 'PICKLE_VERSION': -1,
                 'COMPRESSOR_CLASS': 'redis_cache.compressors.ZLibCompressor',
                 'COMPRESSOR_CLASS_KWARGS': {
@@ -53,7 +52,7 @@ class CompressionTestCase(object):
             'OPTIONS': {
                 'DB': 15,
                 'PASSWORD': 'yadayada',
-                'PARSER_CLASS': 'redis.connection.HiredisParser',
+                'PARSER_CLASS': 'redis.connection._HiredisParser',
                 'PICKLE_VERSION': -1,
                 'COMPRESSOR_CLASS': 'redis_cache.compressors.NoopCompressor',
             },
@@ -72,7 +71,7 @@ class ZLibTestCase(CompressionTestCase, BaseRedisTestCase, TestCase):
             'OPTIONS': {
                 'DB': 14,
                 'PASSWORD': 'yadayada',
-                'PARSER_CLASS': 'redis.connection.HiredisParser',
+                'PARSER_CLASS': 'redis.connection._HiredisParser',
                 'PICKLE_VERSION': -1,
                 'COMPRESSOR_CLASS': 'redis_cache.compressors.BZip2Compressor',
                 'COMPRESSOR_CLASS_KWARGS': {
@@ -90,7 +89,7 @@ class ZLibTestCase(CompressionTestCase, BaseRedisTestCase, TestCase):
             'OPTIONS': {
                 'DB': 15,
                 'PASSWORD': 'yadayada',
-                'PARSER_CLASS': 'redis.connection.HiredisParser',
+                'PARSER_CLASS': 'redis.connection._HiredisParser',
                 'PICKLE_VERSION': -1,
                 'COMPRESSOR_CLASS': 'redis_cache.compressors.NoopCompressor',
             },

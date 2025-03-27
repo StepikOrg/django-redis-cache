@@ -14,13 +14,13 @@ def stddev(lst):
     return sqrt(variance)
 
 
-class MultiServerTests(object):
+class MultiServerTests:
 
     def test_distribution(self):
         nodes = [node._position for node in self.cache.sharder._nodes]
         nodes.sort()
         diffs = [(b - a) for a, b in zip(nodes[:-1], nodes[1:])]
-        l = 16 ** 8
+        l = 16 ** 8  # noqa
         perfect_dist = l / len(nodes)
         random_dist = sum(diffs) / len(diffs)
         _max = max([perfect_dist, random_dist])
@@ -32,7 +32,7 @@ class MultiServerTests(object):
 
     def test_make_key_distribution(self):
         ring = HashRing()
-        nodes = set([str(node._node) for node in self.cache.sharder._nodes])
+        nodes = {str(node._node) for node in self.cache.sharder._nodes}
         nodes = [
             ('127.0.0.1', 6379, 15, '/tmp/redis0.sock'),
             ('127.0.0.1', 6379, 15, '/tmp/redis1.sock'),

@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from hashlib import sha1
 import os
 import subprocess
@@ -14,6 +11,7 @@ except ImportError:
     import pickle
 
 import django
+
 from django.core.cache import caches
 from django.core.exceptions import ImproperlyConfigured
 from django.test import TestCase, override_settings
@@ -21,9 +19,9 @@ from django.utils.encoding import force_bytes
 
 import redis
 
-from tests.testapp.models import Poll, expensive_calculation
+from testapp.models import Poll, expensive_calculation
 from redis_cache.cache import RedisCache, pool
-from redis_cache.constants import KEY_EXPIRED, KEY_NON_VOLATILE
+from redis_cache.constants import KEY_EXPIRED
 from redis_cache.utils import get_servers, parse_connection_kwargs
 
 
@@ -31,7 +29,7 @@ REDIS_PASSWORD = 'yadayada'
 
 
 LOCATION = "127.0.0.1:6381"
-
+REDIS_SERVER_COMMAND = './redis/src/redis-server'
 
 # functions/classes for complex data type tests
 def f():
@@ -69,7 +67,7 @@ def start_redis_servers(servers, db=None, master=None):
         if is_socket:
             parameters.update(
                 port=0,
-                unixsocket='/tmp/redis{0}.sock'.format(i),
+                unixsocket='/tmp/redis{}.sock'.format(i),
                 unixsocketperm=755,
             )
         if master and not connection_kwargs == master_connection_kwargs:
@@ -81,7 +79,7 @@ def start_redis_servers(servers, db=None, master=None):
                 )
             )
 
-        args = ['./redis/src/redis-server'] + [
+        args = [REDIS_SERVER_COMMAND] + [
             "--{parameter} {value}".format(parameter=parameter, value=value)
             for parameter, value in parameters.items()
         ]
@@ -91,7 +89,7 @@ def start_redis_servers(servers, db=None, master=None):
     return processes
 
 
-class SetupMixin(object):
+class SetupMixin:
     processes = None
 
     @classmethod
@@ -119,7 +117,7 @@ class SetupMixin(object):
             )
 
             # Give redis processes some time to startup
-            time.sleep(.1)
+            time.sleep(.2)
 
         self.reset_pool()
         self.cache = self.get_cache()
@@ -318,7 +316,6 @@ class BaseRedisTestCase(SetupMixin):
     def test_unicode(self):
         # Unicode values can be cached
         stuff = {
-            'ascii': 'ascii_value',
             'unicode_ascii': 'Iñtërnâtiônàlizætiøn1',
             'Iñtërnâtiônàlizætiøn': 'Iñtërnâtiônàlizætiøn2',
             'ascii': {'x': 1}
@@ -712,7 +709,7 @@ class ConfigurationTestCase(SetupMixin, TestCase):
         'OPTIONS': {
             'DB': 1,
             'PASSWORD': 'yadayada',
-            'PARSER_CLASS': 'redis.connection.HiredisParser',
+            'PARSER_CLASS': 'redis.connection._HiredisParser',
             'PICKLE_VERSION': -1,
             'MASTER_CACHE': 'redis://:yadayada@localhost:6381/15',
         },

@@ -1,9 +1,6 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django.test import TestCase, override_settings
 
-from tests.testapp.tests.base_tests import SetupMixin
+from .base import SetupMixin
 
 
 LOCATION = "127.0.0.1:6381"
@@ -77,7 +74,7 @@ class BaseSerializerTestCase(SetupMixin, TestCase):
         'OPTIONS': {
             'DB': 1,
             'PASSWORD': 'yadayada',
-            'PARSER_CLASS': 'redis.connection.HiredisParser',
+            'PARSER_CLASS': 'redis.connection._HiredisParser',
             'PICKLE_VERSION': 1,
             'SERIALIZER_CLASS': 'redis_cache.serializers.PickleSerializer'
         },
@@ -98,7 +95,7 @@ class PickleSerializerTestCase(BaseSerializerTestCase):
         'OPTIONS': {
             'DB': 1,
             'PASSWORD': 'yadayada',
-            'PARSER_CLASS': 'redis.connection.HiredisParser',
+            'PARSER_CLASS': 'redis.connection._HiredisParser',
             'PICKLE_VERSION': 1,
             'SERIALIZER_CLASS': 'redis_cache.serializers.PickleSerializer',
             'SERIALIZER_CLASS_KWARGS': {
@@ -122,7 +119,7 @@ class PickleSerializerTestCase2(BaseSerializerTestCase):
         'OPTIONS': {
             'DB': 1,
             'PASSWORD': 'yadayada',
-            'PARSER_CLASS': 'redis.connection.HiredisParser',
+            'PARSER_CLASS': 'redis.connection._HiredisParser',
             'PICKLE_VERSION': 1,
             'SERIALIZER_CLASS': 'redis_cache.serializers.JSONSerializer'
         },
@@ -140,7 +137,7 @@ class JsonSerializerTestCase(BaseSerializerTestCase):
         'OPTIONS': {
             'DB': 1,
             'PASSWORD': 'yadayada',
-            'PARSER_CLASS': 'redis.connection.HiredisParser',
+            'PARSER_CLASS': 'redis.connection._HiredisParser',
             'PICKLE_VERSION': -1,
             'SERIALIZER_CLASS': 'redis_cache.serializers.MSGPackSerializer'
         },
@@ -158,7 +155,7 @@ class MSGPackSerializerTestCase(BaseSerializerTestCase):
         'OPTIONS': {
             'DB': 1,
             'PASSWORD': 'yadayada',
-            'PARSER_CLASS': 'redis.connection.HiredisParser',
+            'PARSER_CLASS': 'redis.connection._HiredisParser',
             'PICKLE_VERSION': -1,
             'SERIALIZER_CLASS': 'redis_cache.serializers.YAMLSerializer'
         },

@@ -1,8 +1,8 @@
-# -*- coding: utf-8 -*-
 from django.test import TestCase, override_settings
 
 from redis.exceptions import ConnectionError
-from tests.testapp.tests.base_tests import SetupMixin
+
+from .base import SetupMixin
 
 LOCATION = "127.0.0.1:6381"
 
@@ -15,7 +15,7 @@ LOCATION = "127.0.0.1:6381"
             'OPTIONS': {
                 'DB': 15,
                 'PASSWORD': 'yadayada',
-                'PARSER_CLASS': 'redis.connection.HiredisParser',
+                'PARSER_CLASS': 'redis.connection._HiredisParser',
                 'PICKLE_VERSION': -1,
                 'SOCKET_TIMEOUT': 0,
             },

@@ -7,11 +7,10 @@ DATABASES = {
 }
 
 INSTALLED_APPS = [
-    'django_nose',
-    'tests.testapp',
+    'testapp',
 ]
 
-ROOT_URLCONF = 'tests.urls'
+ROOT_URLCONF = 'testapp.urls'
 
 SECRET_KEY = "shh...it's a seakret"
 
@@ -22,7 +21,7 @@ CACHES = {
         'OPTIONS': {
             'DB': 15,
             'PASSWORD': 'yadayada',
-            'PARSER_CLASS': 'redis.connection.HiredisParser',
+            'PARSER_CLASS': 'redis.connection._HiredisParser',
             'PICKLE_VERSION': 2,
             'CONNECTION_POOL_CLASS': 'redis.ConnectionPool',
             'CONNECTION_POOL_CLASS_KWARGS': {
@@ -31,5 +30,7 @@ CACHES = {
         },
     },
 }
-TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
 MIDDLEWARE_CLASSES = tuple()
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
